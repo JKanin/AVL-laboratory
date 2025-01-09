@@ -1,0 +1,10 @@
+A 6 AA
+A 10 AA
+A 15 AA
+A 3 AA
+A 5 AA
+A 16 AA
+A 7 AA
+A 20 AA
+A 25 AA
+A 30 AA
