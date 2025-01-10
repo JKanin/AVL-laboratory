@@ -4,16 +4,16 @@
 #include <vector>
 using namespace std;
 
-struct number { // структура госномера
+struct number { // СЃС‚СЂСѓРєС‚СѓСЂР° РіРѕСЃРЅРѕРјРµСЂР°
     char series1;
     int num;
     string series2;
 
-    bool operator==(const number& other) const { // Оператор ==
+    bool operator==(const number& other) const { // РћРїРµСЂР°С‚РѕСЂ ==
         return (series1 == other.series1 && num == other.num && series2 == other.series2);
     }
 
-    bool operator<(const number& other) const { // Оператор <
+    bool operator<(const number& other) const { // РћРїРµСЂР°С‚РѕСЂ <
         if (series1 != other.series1) {
             return series1 < other.series1;
         }
@@ -25,7 +25,7 @@ struct number { // структура госномера
         }
     }
 
-    bool operator>(const number& other) const { // Оператор >
+    bool operator>(const number& other) const { // РћРїРµСЂР°С‚РѕСЂ >
         if (series1 != other.series1) {
             return series1 > other.series1;
         }
@@ -38,7 +38,7 @@ struct number { // структура госномера
     }
 };
 
-struct Node { //структура узла дерева
+struct Node { //СЃС‚СЂСѓРєС‚СѓСЂР° СѓР·Р»Р° РґРµСЂРµРІР°
     number key;
     unsigned char height;
     Node* left;
@@ -46,7 +46,7 @@ struct Node { //структура узла дерева
     Node(number k) { key = k; left = right = nullptr; height = 1; }
 };
 
-void readNumbers(vector<number>& numbers) {//считывание узлов дерева из файла
+void readNumbers(vector<number>& numbers) {//СЃС‡РёС‚С‹РІР°РЅРёРµ СѓР·Р»РѕРІ РґРµСЂРµРІР° РёР· С„Р°Р№Р»Р°
     ifstream fin("TXT.txt", ios::in);
 
     char series1;
@@ -61,21 +61,21 @@ void readNumbers(vector<number>& numbers) {//считывание узлов дерева из файла
     fin.close();
 }
 
-unsigned char balanceFactor(Node* p) { // баланс между левым и правым потомками
+unsigned char balanceFactor(Node* p) { // Р±Р°Р»Р°РЅСЃ РјРµР¶РґСѓ Р»РµРІС‹Рј Рё РїСЂР°РІС‹Рј РїРѕС‚РѕРјРєР°РјРё
     unsigned char hl = p->left ? p->left->height : 0;
     unsigned char hr = p->right ? p->right->height : 0;
     return hr - hl;
 }
 
-void fixheight(Node* p) { // корректировка высоты выбранного узла
+void fixheight(Node* p) { // РєРѕСЂСЂРµРєС‚РёСЂРѕРІРєР° РІС‹СЃРѕС‚С‹ РІС‹Р±СЂР°РЅРЅРѕРіРѕ СѓР·Р»Р°
     unsigned char hl = p->left ? p->left->height : 0;
     unsigned char hr = p->right ? p->right->height : 0;
     p->height = (hl > hr ? hl : hr) + 1;
 }
 
-Node* turn_right(Node* p) { // правый поворот
+Node* turn_right(Node* p) { // РїСЂР°РІС‹Р№ РїРѕРІРѕСЂРѕС‚
     Node* q = p->left;
-    if (!q) return p; // Если q == nullptr, ничего не делаем
+    if (!q) return p; // Р•СЃР»Рё q == nullptr, РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј
     p->left = q->right;
     q->right = p;
     fixheight(p);
@@ -83,9 +83,9 @@ Node* turn_right(Node* p) { // правый поворот
     return q;
 }
 
-Node* turn_left(Node* q) { // левый поворот
+Node* turn_left(Node* q) { // Р»РµРІС‹Р№ РїРѕРІРѕСЂРѕС‚
     Node* p = q->right;
-    if (!p) return q; // Если p == nullptr, ничего не делаем
+    if (!p) return q; // Р•СЃР»Рё p == nullptr, РЅРёС‡РµРіРѕ РЅРµ РґРµР»Р°РµРј
     q->right = p->left;
     p->left = q;
     fixheight(q);
@@ -96,14 +96,14 @@ Node* turn_left(Node* q) { // левый поворот
 Node* balance_node(Node* p) {
     fixheight(p);
     if (balanceFactor(p) == 2) {
-        // Большой левый поворот
+        // Р‘РѕР»СЊС€РѕР№ Р»РµРІС‹Р№ РїРѕРІРѕСЂРѕС‚
         if (p->right && balanceFactor(p->right) < 0) {
             p->right = turn_right(p->right);
         }
         return turn_left(p);
     }
     if (balanceFactor(p) == -2) {
-        // Большой правый поворот
+        // Р‘РѕР»СЊС€РѕР№ РїСЂР°РІС‹Р№ РїРѕРІРѕСЂРѕС‚
         if (p->left && balanceFactor(p->left) > 0) {
             p->left = turn_left(p->left);
         }
@@ -112,7 +112,7 @@ Node* balance_node(Node* p) {
     return p;
 }
 
-Node* Insert(Node* p, number k) { // добавление нового узла
+Node* Insert(Node* p, number k) { // РґРѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ СѓР·Р»Р°
     if (!p) {
         return new Node(k);
     }
@@ -125,11 +125,11 @@ Node* Insert(Node* p, number k) { // добавление нового узла
     return balance_node(p);
 }
 
-Node* findmin(Node* p) { // поиск минимального элемента среди предков p (для удаления элемента p)
+Node* findmin(Node* p) { // РїРѕРёСЃРє РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° СЃСЂРµРґРё РїСЂРµРґРєРѕРІ p (РґР»СЏ СѓРґР°Р»РµРЅРёСЏ СЌР»РµРјРµРЅС‚Р° p)
     return p->left ? findmin(p->left) : p;
 }
 
-Node* deletemin(Node* p) { // удаление минимального элемента среди предков (для удаления элемента p)
+Node* deletemin(Node* p) { // СѓРґР°Р»РµРЅРёРµ РјРёРЅРёРјР°Р»СЊРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° СЃСЂРµРґРё РїСЂРµРґРєРѕРІ (РґР»СЏ СѓРґР°Р»РµРЅРёСЏ СЌР»РµРјРµРЅС‚Р° p)
     if (!p->left) {
         return p->right;
     }
@@ -137,7 +137,7 @@ Node* deletemin(Node* p) { // удаление минимального элемента среди предков (для 
     return balance_node(p);
 }
 
-Node* DeleteEl(Node* p, number x) { // удаление элемента
+Node* DeleteEl(Node* p, number x) { // СѓРґР°Р»РµРЅРёРµ СЌР»РµРјРµРЅС‚Р°
     if (!p) {
         cout << "Element not found" << endl;
         return nullptr;
@@ -161,27 +161,25 @@ Node* DeleteEl(Node* p, number x) { // удаление элемента
     return balance_node(p);
 }
 
-Node* FindElemNumber(Node* p, int x) { // поиск элемента дерева по номеру
+void FindElemNumber(Node* p, int x) { // РїРѕРёСЃРє СЌР»РµРјРµРЅС‚Р° РґРµСЂРµРІР° РїРѕ РЅРѕРјРµСЂСѓ
     if (!p) {
-        return nullptr;
+        return;
     }
     if (p->key.num == x) {
         cout << "Element found - " << p->key.series1 << ' ' << p->key.num << ' ' << p->key.series2 << endl;
-        return p;
     }
-    Node* result = FindElemNumber(p->left, x);
-    if (result) return result;
-    return FindElemNumber(p->right, x);
+    FindElemNumber(p->left, x);
+    FindElemNumber(p->right, x);
 }
 
-void PrintTree(Node* p, int space = 0, int level = 12) { // печать дерева
+void PrintTree(Node* p, int space = 0, int level = 12) { // РїРµС‡Р°С‚СЊ РґРµСЂРµРІР°
     if (!p) return;
     space += level;
     PrintTree(p->right, space);
     cout << endl;
     for (int i = level; i < space; i++)
         cout << " ";
-    cout << p->key.series1 << p->key.num << " " << p->key.series2 << endl;
+    cout << p->key.series1 << ' ' << p->key.num << " " << p->key.series2 << endl;
     PrintTree(p->left, space);
 }
 
@@ -193,11 +191,9 @@ int main() {
     for (const auto& num : numbers) {
         root = Insert(root, num);
     }
-
+    number num1 = { 'N',326, "BO" };
+    
     PrintTree(root);
-    cout << endl;
-
     ofstream out("TXT_1.txt");
     return 0;
 }
-
